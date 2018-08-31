@@ -1,3 +1,15 @@
+# Folder
+.vs
+ipch
+temp
+x64
+Debug
+
+# VS file
+*.aps
+*.rtf
+*.VC.db
+
 # Prerequisites
 *.d
 

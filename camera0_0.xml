@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<relationship type_id="opencv-matrix">
+  <rows>4</rows>
+  <cols>4</cols>
+  <dt>f</dt>
+  <data>
+    9.99999940e-01 1.86264515e-09 0. -7.82310963e-07 0. 1. 0.
+    -5.72204590e-06 -3.72529030e-09 8.94069672e-08 1. 0. 0. 0. 0. 1.</data></relationship>
+</opencv_storage>
