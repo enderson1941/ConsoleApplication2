@@ -31,4 +31,4 @@
 using namespace std;
 using namespace cv;
 
-int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold, int index_ = 0);
+int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold, int index_ = 0, int mode_ = 0);
