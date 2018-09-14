@@ -44,21 +44,19 @@ int main()
     }
 
 	string message_;
-
 	BOOL save_sgn = TRUE;
 	Mat img1 = imread("tcam_ini1.bmp", 1);
 	Mat img2 = imread("scam_ini1.bmp", 1);
 	Mat img3 = imread("img_tcam_org_1.bmp", 1);//img_tcam_org_1
 	Mat img4 = imread("img_tcam_org_1.bmp", 1);//scam_1
-
 	string index_ = "C920-118";//camera calibration parameter
 	int cnt_ = 50;
 	int camera_id = 0;
 	float mar = 40;
 	float squ = 50;
 	double valve_ = 0.02195;
-
 	cout << "process start." << endl;
+
 	//Mat data_object;
 	////1
 	//calib_param = camera_calib_init(index_, cv::Size(7, 5), mar, squ);
@@ -83,13 +81,14 @@ int main()
 	//posi_param = identify(img4, posi_param.r_points, valve_, save_sgn);
 	//cout << "Inspection result: " << boolalpha << posi_param.iden_res << endl;
 	//cout << "Inspect valve: " << posi_param.iden_valve << endl;
-	
-	string img_file = "temp\\img05.jpg";
+
+	string img_file = "temp\\top_2.png";
 	Mat img5 = imread(img_file);
 	int cnt = 0;
-	int code_ = color_identify(img5, Scalar(150, 85, 80), cnt, 30, 5, 1);
+	int code_ = color_identify(img5, Scalar(245, 100, 5), cnt, 65, 9, 1);
 	// tape023: Scalar(140, 70, 36) tape14:Scalar(210, 110, 80) 
 	// img05: Scalar(150, 85, 80) img06: Scalar(150, 95, 85) img07: Scalar(200, 100, 80) 35
+	// top_1-2: Scalar(245, 100, 5)
 	if (code_ == -1)
 	{
 		cout << "Input image invalid." << endl;
@@ -119,49 +118,48 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 		return -1;
 	}
 	Mat mask_ = Mat(in_img.rows, in_img.cols, CV_8UC1, Scalar::all(0));
-	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, Size(2, 2), Point(-1, -1));
+	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, Size(3, 3), Point(-1, -1));
 	/*morphologyEx(in_img, res_, MorphTypes::MORPH_TOPHAT, element, Point(-1, -1), 5);
 	imwrite("temp\\TOPHAT.jpg", res_);
 	res_ = in_img - res_;
 	imwrite("temp\\minus.jpg", res_);*/
-	morphologyEx(in_img.clone(), res_, MorphTypes::MORPH_OPEN, element, Point(-1, -1), 4);//MORPH_OPEN MORPH_CLOSE
-	medianBlur(res_.clone(), res_, 5);
+	morphologyEx(in_img.clone(), res_, MorphTypes::MORPH_OPEN, element, Point(-1, -1), 3);//MORPH_OPEN MORPH_CLOSE
+	imwrite("temp\\morph.jpg", res_);
+	medianBlur(res_.clone(), res_, 1);
 	for (int col = 0; col < res_.cols; col++)
 	{
 		for (int row = 0; row < res_.rows; row++)
 		{
 			Scalar color = res_.at<Vec3b>(row, col);
 			double tmp = sqrt(norm(color[0] - target_color[0]) + 
-				norm(color[1] - target_color[1])+ 
-				norm(color[2] - target_color[2]));
+				norm(color[1] - target_color[1]) + norm(color[2] - target_color[2]));
 			if (tmp < threshold)
 			{
 				mask_.at<uchar>(row, col) = 255;
 				marker_.push_back(Point2f(col, row));
-				line(mask_, Point(col, 0), Point(col, res_.rows), Scalar::all(255));
 			}
 		}
 	}
 	imwrite("temp\\mask.jpg", mask_);
 	
 	vector<vector<Point>> contours;
-	findContours(mask_.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);//CV_RETR_LIST
+	findContours(mask_.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);//CV_RETR_LIST CV_RETR_EXTERNAL
 	if (contours.size() < contour_cnt)
 	{
 		return -2;
 	}
 	contour_cnt = 0;
-	vector<vector<Point> >::iterator itc = contours.begin();
+	vector<vector<Point>>::iterator itc = contours.begin();
 	while (itc != contours.end())
 	{
-		if (itc->size() < 30)
+		if (itc->size() < 130)
 		{
 			itc = contours.erase(itc);
 		}
 		else
 		{
 			contour_cnt++;
-			Rect rec_ = boundingRect(*itc);//contours[i]
+			Rect rec_ = boundingRect(*itc);
 	//		rectangle(in_img, rec_, Scalar(85, 114, 202), 4);
 			++itc;
 		}
@@ -169,7 +167,7 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	
 	if (mode_ > 0)
 	{
-		cv::drawContours(in_img, contours, -1, Scalar(140, 183, 127), CV_FILLED, 8);
+		cv::drawContours(in_img, contours, -1, Scalar(140, 183, 127), 4, 8);//CV_FILLED
 		RotatedRect bound_ = minAreaRect(marker_);
 		Point2f pts_[4];
 		Point2f pts_reg[4];
