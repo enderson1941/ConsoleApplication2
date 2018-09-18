@@ -8,6 +8,7 @@ Debug
 *.aps
 *.rtf
 *.VC.db
+*.VC.opendb
 
 # Prerequisites
 *.d
