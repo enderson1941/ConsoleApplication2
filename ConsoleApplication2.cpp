@@ -112,6 +112,7 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	string file_name;
 	ostringstream buffer;
 	vector<Point2f> marker_;
+	vector<double> dist_;
 	Mat res_;
 	if (!in_img.data)
 	{
@@ -124,7 +125,6 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	res_ = in_img - res_;
 	imwrite("temp\\minus.jpg", res_);*/
 	morphologyEx(in_img.clone(), res_, MorphTypes::MORPH_OPEN, element, Point(-1, -1), 3);//MORPH_OPEN MORPH_CLOSE
-	imwrite("temp\\morph.jpg", res_);
 	medianBlur(res_.clone(), res_, 1);
 	for (int col = 0; col < res_.cols; col++)
 	{
@@ -141,57 +141,109 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 		}
 	}
 	imwrite("temp\\mask.jpg", mask_);
-	
-	vector<vector<Point>> contours;
-	findContours(mask_.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);//CV_RETR_LIST CV_RETR_EXTERNAL
-	if (contours.size() < contour_cnt)
+	Point* pts_  = new Point[10];
+	double dist = 0.0f;
+	double aver = 0.0f;
+	double max_v = 0.0f;
+	double min_v = 200.0f;
+//	Mat mask_2 = Mat(mask_.rows, mask_.cols, mask_.type(), Scalar::all(0));
+	for (int row = 0; row < mask_.rows; row++)
 	{
-		return -2;
-	}
-	contour_cnt = 0;
-	vector<vector<Point>>::iterator itc = contours.begin();
-	while (itc != contours.end())
-	{
-		if (itc->size() < 130)
+		int ind = 0;
+		for (int col = 0; col < mask_.cols; col++)
 		{
-			itc = contours.erase(itc);
+			if (mask_.at<uchar>(row, col) == 255 && //outer
+				mask_.at<uchar>(row , col - 1 ) == 0 && 
+				mask_.at<uchar>(row , col + 1) == 255  )
+			{
+			//	mask_2.at<uchar>(row, col) = 255;
+				pts_[ind] = Point(col, row);
+				ind++;
+			}
+			if (mask_.at<uchar>(row, col) == 255 && //inner
+				mask_.at<uchar>(row, col - 1) == 255 &&
+				mask_.at<uchar>(row, col + 1) == 0)
+			{
+			//	mask_2.at<uchar>(row, col) = 255;
+				pts_[ind] = Point(col, row);
+				ind++;
+			}
 		}
-		else
+		dist = abs(norm(pts_[0] - pts_[1]));
+		if (dist > 15)
 		{
-			contour_cnt++;
-			Rect rec_ = boundingRect(*itc);
-	//		rectangle(in_img, rec_, Scalar(85, 114, 202), 4);
-			++itc;
+			dist_.push_back(dist);
+			aver += dist;
+			if (dist > max_v)
+			{
+				max_v = dist;
+			}
+			if (dist < min_v)
+			{
+				min_v = dist;
+			}
+			cout << "Dist" << row << "(pixels): " << dist << endl;
 		}
 	}
-	
-	if (mode_ > 0)
-	{
-		cv::drawContours(in_img, contours, -1, Scalar(140, 183, 127), 4, 8);//CV_FILLED
-		RotatedRect bound_ = minAreaRect(marker_);
-		Point2f pts_[4];
-		Point2f pts_reg[4];
-		bound_.points(pts_);
-		for (int p = 0; p < 4; p++)
-		{
-			line(in_img, pts_[p], pts_[(p + 1) % 4], Scalar(85, 114, 202), 4);
-		}
-		float box_w = norm(pts_[0] - pts_[3]);
-		float box_h = norm(pts_[0] - pts_[1]);
-		pts_reg[0] = Point2f(0, 0);
-		pts_reg[1] = Point2f(box_w, 0);
-		pts_reg[2] = Point2f(box_w, box_h);
-		pts_reg[3] = Point2f(0, box_h);
-		Mat P = getPerspectiveTransform(pts_, pts_reg);
-		Mat perspect;
-		warpPerspective(in_img.clone(), perspect, P, Size((int)box_w, (int)box_h));
-		imwrite("temp\\perspective.jpg", perspect);
-	}
-	
+	aver /= dist_.size();
+	cout << "averDist(pixels): " << aver << endl;
+	cout << "MaxDist(pixels): " << max_v << endl;
+	cout << "MinDist(pixels): " << min_v << endl;
+//	imwrite("temp\\mask2.jpg", mask_2);
 
-	buffer << "temp\\res_" << index_ << ".jpg";
-	file_name = buffer.str();
-	buffer << "";
-	imwrite(file_name, in_img);
+	///others
+	//vector<vector<Point>> contours;
+	//findContours(mask_.clone(), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);//CV_RETR_LIST CV_RETR_EXTERNAL
+	//if (contours.size() < contour_cnt)
+	//{
+	//	return -2;
+	//}
+	//contour_cnt = 0;
+	//vector<vector<Point>>::iterator itc = contours.begin();
+	//while (itc != contours.end())
+	//{
+	//	if (itc->size() < 130)
+	//	{
+	//		itc = contours.erase(itc);
+	//	}
+	//	else
+	//	{
+	//		contour_cnt++;
+	//		Rect rec_ = boundingRect(*itc);
+	////		rectangle(in_img, rec_, Scalar(85, 114, 202), 4);
+	//		++itc;
+	//	}
+	//}
+	//
+	//if (mode_ > 0)
+	//{
+	//	cv::drawContours(in_img, contours, -1, Scalar(140, 183, 127), 4, 8);//CV_FILLED
+	//	RotatedRect bound_ = minAreaRect(marker_);
+	//	Point2f pts_[4];
+	//	Point2f pts_reg[4];
+	//	bound_.points(pts_);
+	//	for (int p = 0; p < 4; p++)
+	//	{
+	//		line(in_img, pts_[p], pts_[(p + 1) % 4], Scalar(85, 114, 202), 4);
+	//	}
+	//	float box_w = norm(pts_[0] - pts_[3]);
+	//	float box_h = norm(pts_[0] - pts_[1]);
+	//	pts_reg[0] = Point2f(0, 0);
+	//	pts_reg[1] = Point2f(box_w, 0);
+	//	pts_reg[2] = Point2f(box_w, box_h);
+	//	pts_reg[3] = Point2f(0, box_h);
+	//	Mat P = getPerspectiveTransform(pts_, pts_reg);
+	//	Mat perspect;
+	//	warpPerspective(in_img.clone(), perspect, P, Size((int)box_w, (int)box_h));
+	//	imwrite("temp\\perspective.jpg", perspect);
+	//}
+	//
+	//buffer << "temp\\res_" << index_ << ".jpg";
+	//file_name = buffer.str();
+	//buffer << "";
+	//imwrite(file_name, in_img);
+
+	pts_ = NULL;
+	delete[] pts_;
 	return 0;
 }
