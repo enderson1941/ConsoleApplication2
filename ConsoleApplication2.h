@@ -24,11 +24,26 @@
 #include "conio.h"
 #include "Shlwapi.h"
 #include "ctime"
-#include "iomanip"
+#include "map"
+//#include "iomanip"
 #include "boost\format.hpp"
 
 
 using namespace std;
 using namespace cv;
 
-int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold, int index_ = 0, int mode_ = 0);
+
+int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold, double& rmse, 
+	int index_ = 0, int mode_ = 0);
+
+int distance_cal(Mat in_img, int threshold, double scale, int mode_);
+
+vector<double> match_shape(Mat pattern, Mat& in_img, double thresh);
+
+bool barcode_search(Mat& in_img, int& index);
+
+int funcA(int n);
+
+int index(int& op1, int& op2);
+
+int add(int a, int b);

@@ -2,12 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Program Files\boost_1_67_0;D:\Program Files\OpenCV\opencv\build\include\opencv2;D:\Program Files\OpenCV\opencv\build\include\opencv;D:\Program Files\OpenCV\opencv\build\include;D:\Program Files\Basler\pylon 5\Development\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Program Files\OpenCV\opencv\build\x64\vc14\staticlib;D:\Program Files\OpenCV\opencv\build\x64\vc14\lib;D:\Program Files\OpenCV\opencv\build\x64\vc15\lib;D:\Program Files\Basler\pylon 5\Development\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
