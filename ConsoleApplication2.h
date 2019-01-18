@@ -17,6 +17,7 @@
 
 //soft
 #include "iostream"
+#include "time.h"
 #include "vector"
 #include "stdio.h"
 #include "stdlib.h"
@@ -47,3 +48,5 @@ int funcA(int n);
 int index(int& op1, int& op2);
 
 int add(int a, int b);
+
+double run_timer(bool switch_, clock_t& start_time);

@@ -43,6 +43,44 @@ int main()
 	}
 
 	std::cout << "process start." << endl;
+	
+	vector<int> nums;
+	for (int r = 0; r < 800; r++)
+	{
+		nums.push_back(rand()%10);
+	}
+	
+	vector<int> answer;
+	clock_t start_time;
+	
+	run_timer(true, start_time);
+	
+	for (int i = 0; i < nums.size(); i++)
+	{
+		bool sign = false;
+		vector<int> check(nums.begin() + i, nums.end());
+		check.insert(check.end(), nums.begin(), nums.begin() + i);
+		for (int j = 0; j < check.size(); j++)
+		{
+			if (nums[i] < check[j])
+			{
+				answer.push_back(check[j]);
+				sign = true;
+				break;
+			}
+		}
+		if (!sign)
+		{
+			answer.push_back(-1);
+		}
+	}
+
+	double time_collapse = run_timer(false, start_time);
+	std::cout << "Total time: "<< time_collapse * 1000.0 << " ms" << endl;
+
+	
+
+	
 
 	///shape detection
 	/*Mat pattern = imread("temp\\shape1.bmp");
@@ -513,4 +551,19 @@ int index(int& op1, int& op2)//C42
 int add(int a, int b)
 {
 	return (b == 0) ? a : add(a ^ b, (a & b) << 1);
+}
+
+double run_timer(bool switch_, clock_t& start_time)
+{
+	double time_collapse = 0.0f;
+	if (switch_)//on
+	{
+		start_time = clock();
+	}
+	else
+	{
+		clock_t end_time = clock();
+		time_collapse = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+	}
+	return time_collapse;
 }
