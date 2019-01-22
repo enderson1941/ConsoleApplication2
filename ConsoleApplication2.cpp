@@ -43,55 +43,23 @@ int main()
 	}
 
 	std::cout << "process start." << endl;
-	
-	vector<int> nums;
-	for (int r = 0; r < 800; r++)
-	{
-		nums.push_back(rand()%10);
-	}
-	
-	vector<int> answer;
-	clock_t start_time;
-	
-	run_timer(true, start_time);
-	
-	for (int i = 0; i < nums.size(); i++)
-	{
-		bool sign = false;
-		vector<int> check(nums.begin() + i, nums.end());
-		check.insert(check.end(), nums.begin(), nums.begin() + i);
-		for (int j = 0; j < check.size(); j++)
-		{
-			if (nums[i] < check[j])
-			{
-				answer.push_back(check[j]);
-				sign = true;
-				break;
-			}
-		}
-		if (!sign)
-		{
-			answer.push_back(-1);
-		}
-	}
 
-	double time_collapse = run_timer(false, start_time);
-	std::cout << "Total time: "<< time_collapse * 1000.0 << " ms" << endl;
-
+	auto x = [](int a) {cout << a << endl; return 0; }(123);
 	
-
 	
-
 	///shape detection
-	/*Mat pattern = imread("temp\\shape1.bmp");
-	Mat in_img = imread("temp\\shapes2.bmp");
-	vector<double> result = match_shape(pattern, in_img, 1.245);
+	/*Mat pattern = imread("temp\\template.bmp");
+	Mat in_img = imread("temp\\source.bmp");
+
+	vector<double> result = match_shape(pattern, in_img, 0.1285);
 	if (result.size() > 0)
 	{
 		cout << "Found: " << result.size() << endl;
+		int cnt = 1;
 		for (auto i : result)
 		{
-			cout << "result: " << i << endl;
+			cout << "result" << cnt << ": " << i << endl;
+			cnt++;
 		}
 	}*/
 
@@ -202,6 +170,13 @@ int main()
 	//	cout << "Target Color Found: " << cnt << endl;
 	//	cout << "RMSE: " << RMSE << endl;
 	//}
+
+	///calculate run time
+	/*clock_t start_time;
+	run_timer(true, start_time);
+
+	double time_collapse = run_timer(false, start_time);
+	std::cout << "Total time: "<< time_collapse * 1000.0 << " ms" << endl;*/
 
 	cout << "process end." << endl;
 	cv::destroyAllWindows();
@@ -422,6 +397,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 {
 	vector<double> threshold;
 	Mat original_img = in_img.clone();
+	Mat pattern_ = pattern.clone();
+	//image process
 	if (pattern.channels() > 1)
 	{
 		cvtColor(pattern.clone(), pattern, CV_BGR2GRAY);
@@ -434,10 +411,17 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
+	imgpro_contourfind(pattern, 3, 3, 11);
+	imgpro_contourfind(in_img, 3, 3, 11);
+	//
 
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
+
+	/*cv::drawContours(pattern_, in_pattern, 3,
+		Scalar(rand() % 255, rand() % 255, rand() % 255), 2, 8);
+	imwrite("pattern_.bmp", pattern_);*/
 	
 	vector<vector<Point>> in_contour;
 	findContours(in_img, in_contour, CV_RETR_LIST,
@@ -446,20 +430,26 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
-		if (g_dConLength < 50 || g_dConLength > 1000)
+		if (g_dConLength < 100 || g_dConLength > 1000)
 		{
 			itc = in_contour.erase(itc);
 		}
 		else
 		{
-			double threshold_ = cv::matchShapes(in_pattern[0], *itc, 
+			double threshold_ = cv::matchShapes(in_pattern[3], *itc, 
 				CV_CONTOURS_MATCH_I2, 0);
 			if (threshold_ < thresh)
 			{
 				threshold.push_back(threshold_);
+				Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
 				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
-					Scalar(rand() % 255, rand() % 255, rand() % 255), 2, 8); 
-				//distance(in_contour.begin(), itc)
+					color_, 2, 8);
+				//ostringstream buffer;
+				//buffer << "num" << itc - in_contour.begin();
+				//string file_name = buffer.str();
+				//buffer.str("");
+				//putText(original_img, file_name, in_contour[itc - in_contour.begin()][0], 
+				//	HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 2);
 			}
 			++itc;
 		}
@@ -469,6 +459,23 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		imwrite("result.bmp", original_img);
 	}
 	return threshold;
+}
+
+void prepro_contorfind(Mat& pattern, Mat& in_img)
+{
+
+
+}
+
+void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter, int blur_iter)
+{
+	Mat result = in_img.clone();
+	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, 
+		Size(morph_size, morph_size), Point(-1, -1));
+	morphologyEx(result.clone(), result, MorphTypes::MORPH_OPEN,
+		element, Point(-1, -1), morph_iter);//MORPH_OPEN MORPH_CLOSE
+	medianBlur(result.clone(), result, blur_iter);
+	in_img = result.clone();
 }
 
 bool barcode_search(Mat& in_img, int& index)
