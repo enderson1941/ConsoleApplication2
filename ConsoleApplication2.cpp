@@ -44,9 +44,106 @@ int main()
 
 	std::cout << "process start." << endl;
 
-	auto x = [](int a) {cout << a << endl; return 0; }(123);
+	/*
+	//namedWindow("window");
+
+	//cv::Mat bgr_image = cv::imread("temp\\test3.png");
+	//cv::Mat lab_image;
+	//cv::cvtColor(bgr_image, lab_image, CV_BGR2Lab);
+
+	//// Estrazione L channel
+	//std::vector<cv::Mat> lab_planes(3);
+	//cv::split(lab_image, lab_planes);
+
+	//// CLAHE algorithm per L channel
+	//cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
+	//clahe->setClipLimit(6);
+	//cv::Mat dst;
+	//clahe->apply(lab_planes[0], dst);
+
+	//// Merge
+	//dst.copyTo(lab_planes[0]);
+	//cv::merge(lab_planes, lab_image);
+
+	//// RGB
+	//cv::Mat image_clahe;
+	//cv::cvtColor(lab_image, image_clahe, CV_Lab2BGR);
+
+	//// out
+	//cv::imshow("image original", bgr_image);
+	//cv::imshow("image CLAHE", image_clahe);
+	//imwrite("temp\\image CLAHE.png", image_clahe);
+	//cv::waitKey();
+
+	//cv::Mat src_img = cv::imread("temp\\test2.png", 0);
+	//if (src_img.empty()) return -1;
+
+	//// ヒストグラムを描画する画像割り当て
+	//const int ch_width = 260, ch_height = 200;
+	//cv::Mat hist_img(cv::Size(ch_width, ch_height), CV_8UC3, cv::Scalar::all(255));
+
+	//cv::Mat hist;
+	//const int hdims[] = { 256 }; // 次元毎のヒストグラムサイズ
+	//const float hranges[] = { 0,256 };
+	//const float* ranges[] = { hranges }; // 次元毎のビンの下限上限
+	//double max_val = .0;
+
+	//// シングルチャンネルのヒストグラム計算
+	//// 画像（複数可），画像枚数，計算するチャンネル，マスク，ヒストグラム（出力），
+	//// ヒストグラムの次元，ヒストグラムビンの下限上限
+	//cv::calcHist(&src_img, 1, 0, cv::Mat(), hist, 1, hdims, ranges);
+
+	//// 最大値の計算
+	//cv::minMaxLoc(hist, 0, &max_val);
+
+	//// ヒストグラムのスケーリングと描画
+	//cv::Scalar color = cv::Scalar::all(100);
+	//// スケーリング
+	//hist = hist * (max_val ? ch_height / max_val : 0.);
+	//for (int j = 0; j<hdims[0]; ++j) {
+	//	int bin_w = cv::saturate_cast<int>((double)ch_width / hdims[0]);
+	//	cv::rectangle(hist_img,
+	//		cv::Point(j*bin_w, hist_img.rows),
+	//		cv::Point((j + 1)*bin_w, hist_img.rows - cv::saturate_cast<int>(hist.at<float>(j))),
+	//		color, -1);
+	//}
+
+	//cv::namedWindow("Image", CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO);
+	//cv::namedWindow("Histogram", CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO);
+	//cv::imshow("Image", src_img);
+	//cv::imshow("Histogram", hist_img);
+	//cv::waitKey();
+	*/
+
+	//Mat im_th = imread("temp\\template.bmp", 1);//CV_LOAD_IMAGE_UNCHANGED
+	//Mat ori = im_th.clone();
+	//cvtColor(im_th.clone(), im_th, CV_BGR2GRAY);
+	//threshold(im_th.clone(), im_th, 220, 255, THRESH_BINARY_INV);
+	//vector<vector<Point>> in_pattern1;
+	//findContours(im_th, in_pattern1, CV_RETR_EXTERNAL,
+	//	CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
+	//Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
+	//cv::drawContours(ori, in_pattern1, -1, color_, 2, 8);
+	//imwrite("temp\\contor0.bmp", ori);
+
+	int nRet = files_Listing("D:\\github\\spotlight_pic");
 	
 	
+	//// Floodfill from point (0, 0)
+	//Mat im_floodfill = im_th.clone();
+	//floodFill(im_floodfill, cv::Point(0, 0), Scalar(255));
+
+	//// Invert floodfilled image
+	//Mat im_floodfill_inv;
+	//bitwise_not(im_floodfill, im_floodfill_inv);
+
+	//// Combine the two images to get the foreground.
+	//Mat im_out = (im_th | im_floodfill_inv);
+	//namedWindow("out");
+	//imshow("out", im_out);
+	//imwrite("temp\\im_out.bmp", im_out);
+	//cv::waitKey();
+
 	///shape detection
 	/*Mat pattern = imread("temp\\template.bmp");
 	Mat in_img = imread("temp\\source.bmp");
@@ -415,6 +512,9 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	imgpro_contourfind(in_img, 3, 3, 11);
 	//
 
+
+
+
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
@@ -527,6 +627,105 @@ bool barcode_search(Mat& in_img, int& index)
 	index++;
 	in_img = original_img;
 	return found;
+}
+
+int files_Listing(string folder_name)
+{
+	int nRet = 0;
+	int files_cnt = 0;
+	const double unit1 = 1024.0f;//KB
+	const double unit2 = 1024.0f * 1024.0f;//MB
+	const double unit3 = 1024.0f * 1024.0f * 1024.0f;//GB
+	double file_size;
+	_finddata_t file_info;
+	string current_path = folder_name + "\\*.*";
+	intptr_t handle = _findfirst(current_path.c_str(), &file_info);
+	if (-1 == handle)
+	{
+		nRet = -1;
+		return nRet;
+	}
+	if (!PathIsDirectory(L"Output"))
+	{
+		::CreateDirectory(L"Output", NULL);
+	}
+	char* File_list = "Output\\File_list.md";
+	FILE *fp1;
+	errno_t err;
+	if (_access(File_list, 0) == -1)//New
+	{
+		err = fopen_s(&fp1, File_list, "wb+");
+		if (err == 0)
+			std::cout << "File created." << endl;
+		else 
+			std::cout << "File not created." << endl;
+		fclose(fp1);
+	}
+	else//Renew
+	{
+		err = fopen_s(&fp1, File_list, "wb+");
+		if (err == 0)
+			std::cout << "File opened." << endl;
+		else
+			std::cout << "File not opened." << endl;
+
+		char* a = "# Markdown";
+		fputs(a, fp1);
+
+		fclose(fp1);
+	}
+	//	
+	do
+	{
+		string attribute;
+		string unit;
+		ostringstream buffer;
+		if (file_info.attrib == _A_SUBDIR)
+			attribute = "dir";
+		else
+		{
+			attribute = "file";
+			file_size = file_info.size;
+			string ext_ = file_info.name;
+			ext_.erase(ext_.begin(), ext_.begin() + ext_.find_last_of('.') + 1);
+			if (file_size < unit1)
+			{
+				unit = " Byte";
+				buffer << setprecision(0) << fixed << file_size;
+			}
+			else if (file_size > unit1 && file_size < unit2)
+			{
+				file_size /= unit1;
+				unit = " KB";
+				buffer << setprecision(0) << fixed << file_size;
+			}
+			else if (file_size > unit2 && file_size < unit3)
+			{
+				file_size /= unit2;
+				unit = " MB";
+				buffer << setprecision(2) << fixed << file_size;
+			}
+			else if (file_size > unit3)
+			{
+				file_size /= unit3;
+				unit = " GB";
+				buffer << setprecision(1) << fixed << file_size;
+			}
+			string file_sz = buffer.str();
+			cout << file_info.name << ' ' << file_sz << unit << ' ' << ext_ << endl;//attribute
+			files_cnt++;
+		}
+	} while (!_findnext(handle, &file_info));
+	_findclose(handle);
+	if (files_cnt > 0)
+	{
+		cout << "Total file number: " << files_cnt << endl;
+	}
+	else
+	{
+		cout << "There is no files in this folder." << endl;
+	}
+	return nRet;
 }
 
 int funcA(int n)

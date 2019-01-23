@@ -20,6 +20,8 @@
 #include "time.h"
 #include "vector"
 #include "stdio.h"
+#include "io.h"
+#include "iomanip"
 #include "stdlib.h"
 #include "iostream"
 #include "conio.h"
@@ -44,6 +46,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh);
 void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter, int blur_iter);
 
 bool barcode_search(Mat& in_img, int& index);
+
+int files_Listing(string folder_name);
 
 int funcA(int n);
 
