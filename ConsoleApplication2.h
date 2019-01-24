@@ -23,7 +23,7 @@
 #include "io.h"
 #include "iomanip"
 #include "stdlib.h"
-#include "iostream"
+#include "fstream"
 #include "conio.h"
 #include "Shlwapi.h"
 #include "ctime"
@@ -48,6 +48,8 @@ void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter, int blur_it
 bool barcode_search(Mat& in_img, int& index);
 
 int files_Listing(string folder_name);
+
+bool md_fileoperation(int op, fstream& file_operation, string content = "");
 
 int funcA(int n);
 
