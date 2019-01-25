@@ -51,6 +51,8 @@ int files_Listing(string folder_name);
 
 bool md_fileoperation(int op, fstream& file_operation, string content = "");
 
+int treverse(string folder_name, int& file_count, vector<string>& file_details);
+
 int funcA(int n);
 
 int index(int& op1, int& op2);

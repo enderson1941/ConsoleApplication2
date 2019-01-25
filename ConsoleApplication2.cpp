@@ -129,9 +129,21 @@ int main()
 	cout << "Please input absolute path of folder." << endl;
 	string path_name;
 	cin >> path_name;
-	int nRet = files_Listing(path_name);//"D:\\github\\spotlight_pic"
-	
-	
+//	int nRet = files_Listing(path_name);//"D:\\github\\spotlight_pic"  D:\github\test
+
+	vector<string> file_details;
+	int file_count = 0;
+	int nRet = treverse(path_name, file_count, file_details);
+	for (auto i : file_details)
+	{
+		cout << i << endl;
+	}
+
+	vector<string> _extension{ "jpg", "png", "pdf", "bmp", "gif", "tif", "Tiff", "psd" };
+	find(_extension.begin(), _extension.end(), "bmp");
+
+
+
 	//// Floodfill from point (0, 0)
 	//Mat im_floodfill = im_th.clone();
 	//floodFill(im_floodfill, cv::Point(0, 0), Scalar(255));
@@ -632,6 +644,47 @@ bool barcode_search(Mat& in_img, int& index)
 	return found;
 }
 
+int treverse(string folder_name, int& file_count, vector<string>& file_details)
+{
+	int nRet = 0;
+	if (_access(folder_name.c_str(), 0) == -1)
+	{
+		nRet = -2;
+		return nRet;
+	}
+	string current_path = folder_name + "\\*.*";
+	fstream file_op;
+	_finddata_t file_info;
+	intptr_t handle = _findfirst(current_path.c_str(), &file_info);
+	if (-1 == handle)
+	{
+		nRet = -1;
+		return nRet;
+	}
+	//
+	do
+	{
+		string name_ = file_info.name;
+		if (name_ == "." || name_ == "..")
+		{
+			continue;
+		}
+		if (file_info.attrib == _A_SUBDIR)
+		{
+			file_details.push_back(name_ + "_folder");
+			current_path = folder_name + "\\" + name_;
+			treverse(current_path, file_count, file_details);
+		}
+		else
+		{
+			file_details.push_back(name_);
+			file_count++;
+		}
+	} while (!_findnext(handle, &file_info));
+	_findclose(handle);
+	return nRet;
+}
+
 int files_Listing(string folder_name)
 {
 	int nRet = 0;
@@ -686,6 +739,7 @@ int files_Listing(string folder_name)
 		{
 			attribute = "file";
 			file_size = file_info.size;
+#pragma region Filesize_identify
 			if (file_size < unit1)
 			{
 				unit = " Byte";
@@ -709,6 +763,7 @@ int files_Listing(string folder_name)
 				unit = " GB";
 				buffer << setprecision(1) << fixed << file_size;
 			}
+#pragma endregion
 			string file_sz = buffer.str();
 			if (stoi(file_sz) > 0)
 			{
