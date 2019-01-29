@@ -161,20 +161,19 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("C:\\Users\\user\\Desktop\\basler\\temp4.bmp");
-	Mat in_img = imread("C:\\Users\\user\\Desktop\\basler\\img5.bmp");
-
-	vector<double> result = match_shape(pattern, in_img, 0.2586361285);
-	if (result.size() > 0)
-	{
-		cout << "Found: " << result.size() << endl;
-		int cnt = 1;
-		for (auto i : result)
-		{
-			cout << "result" << cnt << ": " << i << endl;
-			cnt++;
-		}
-	}
+	//Mat pattern = imread("C:\\Users\\user\\Desktop\\temp1.bmp");
+	//Mat in_img = imread("C:\\Users\\user\\Desktop\\Img1_Step6.bmp");//image7
+	//vector<double> result = match_shape(pattern, in_img, 0.2515);
+	//if (result.size() > 0)
+	//{
+	//	cout << "Found: " << result.size() << endl;
+	//	int cnt = 1;
+	//	for (auto i : result)
+	//	{
+	//		cout << "result" << cnt << ": " << i << endl;
+	//		cnt++;
+	//	}
+	//}
 
 	///barcode search
 	/*int index_ = 0;
@@ -525,11 +524,12 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
 	imgpro_contourfind(pattern, 3, 3, 0, 11);
-	imgpro_contourfind(in_img, 2, 2, 4, 3);
+	imgpro_contourfind(in_img, 3, 5, 1, 1);
 	//
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
+	double template_Length = arcLength(in_pattern[1], true);
 
 	/*for (int i = 0; i < in_pattern.size(); i++)
 	{
@@ -551,33 +551,42 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
-		if (g_dConLength < 100 || g_dConLength > 1000)
+		if (g_dConLength <  100 || g_dConLength > 1000)//template_Length * 0.6
 		{
 			itc = in_contour.erase(itc);
 		}
 		else
 		{
-			double threshold_ = cv::matchShapes(in_pattern[4], *itc, 
+			double threshold_ = cv::matchShapes(in_pattern[1], *itc, 
 				CV_CONTOURS_MATCH_I2, 0);
 			if (threshold_ < thresh)
 			{
 				threshold.push_back(threshold_);
 				Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
 				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
-					color_, 2, 8);
-				//ostringstream buffer;
-				//buffer << "num" << itc - in_contour.begin();
-				//string file_name = buffer.str();
-				//buffer.str("");
-				//putText(original_img, file_name, in_contour[itc - in_contour.begin()][0], 
-				//	HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 2);
+					color_, 3, 8);
+				/*ostringstream buffer;
+				buffer << "num" << itc - in_contour.begin();
+				string file_name = buffer.str();
+				buffer.str("");
+				putText(original_img, file_name, in_contour[itc - in_contour.begin()][0], 
+					HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 2);*/
 			}
 			++itc;
 		}
 	}
 	if (threshold.size() > 0)
 	{
-		imwrite("result.bmp", original_img);
+		time_t nowtime;
+		nowtime = time(NULL);
+		char currentdate[100];
+		strftime(currentdate, sizeof(currentdate),
+			"%H%m%S", localtime(&nowtime));
+		ostringstream buffer;
+		buffer << currentdate << "_result.bmp";
+		string file_name = buffer.str();
+		buffer.str("");
+		imwrite(file_name, original_img);
 	}
 	return threshold;
 }
