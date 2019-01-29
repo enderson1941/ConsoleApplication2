@@ -43,7 +43,7 @@ int distance_cal(Mat in_img, int threshold, double scale, int mode_);
 
 vector<double> match_shape(Mat pattern, Mat& in_img, double thresh);
 
-void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter, int blur_iter);
+void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter1, int morph_iter2 = 0, int blur_iter = 1);
 
 bool barcode_search(Mat& in_img, int& index);
 

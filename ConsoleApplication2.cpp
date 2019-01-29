@@ -126,6 +126,7 @@ int main()
 	//cv::drawContours(ori, in_pattern1, -1, color_, 2, 8);
 	//imwrite("temp\\contor0.bmp", ori);
 
+	/*
 	cout << "Please input absolute path of folder." << endl;
 	string path_name;
 	cin >> path_name;
@@ -141,7 +142,7 @@ int main()
 
 	vector<string> _extension{ "jpg", "png", "pdf", "bmp", "gif", "tif", "Tiff", "psd" };
 	find(_extension.begin(), _extension.end(), "bmp");
-
+	*/
 
 
 	//// Floodfill from point (0, 0)
@@ -160,10 +161,10 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	/*Mat pattern = imread("temp\\template.bmp");
-	Mat in_img = imread("temp\\source.bmp");
+	Mat pattern = imread("C:\\Users\\user\\Desktop\\basler\\temp4.bmp");
+	Mat in_img = imread("C:\\Users\\user\\Desktop\\basler\\img5.bmp");
 
-	vector<double> result = match_shape(pattern, in_img, 0.1285);
+	vector<double> result = match_shape(pattern, in_img, 0.2586361285);
 	if (result.size() > 0)
 	{
 		cout << "Found: " << result.size() << endl;
@@ -173,7 +174,7 @@ int main()
 			cout << "result" << cnt << ": " << i << endl;
 			cnt++;
 		}
-	}*/
+	}
 
 	///barcode search
 	/*int index_ = 0;
@@ -523,19 +524,24 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
-	imgpro_contourfind(pattern, 3, 3, 11);
-	imgpro_contourfind(in_img, 3, 3, 11);
+	imgpro_contourfind(pattern, 3, 3, 0, 11);
+	imgpro_contourfind(in_img, 2, 2, 4, 3);
 	//
-
-
-
-
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
 
-	/*cv::drawContours(pattern_, in_pattern, 3,
-		Scalar(rand() % 255, rand() % 255, rand() % 255), 2, 8);
+	/*for (int i = 0; i < in_pattern.size(); i++)
+	{
+		Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
+		cv::drawContours(pattern_, in_pattern, i, color_, 2, 8);
+		ostringstream buffer;
+		buffer <<  i;
+		string file_name = buffer.str();
+		buffer.str("");
+		putText(pattern_, file_name, in_pattern[i][0],
+			HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 1);
+	}
 	imwrite("pattern_.bmp", pattern_);*/
 	
 	vector<vector<Point>> in_contour;
@@ -551,7 +557,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		}
 		else
 		{
-			double threshold_ = cv::matchShapes(in_pattern[3], *itc, 
+			double threshold_ = cv::matchShapes(in_pattern[4], *itc, 
 				CV_CONTOURS_MATCH_I2, 0);
 			if (threshold_ < thresh)
 			{
@@ -582,13 +588,15 @@ void prepro_contorfind(Mat& pattern, Mat& in_img)
 
 }
 
-void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter, int blur_iter)
+void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter1, int morph_iter2, int blur_iter)
 {
 	Mat result = in_img.clone();
 	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, 
 		Size(morph_size, morph_size), Point(-1, -1));
 	morphologyEx(result.clone(), result, MorphTypes::MORPH_OPEN,
-		element, Point(-1, -1), morph_iter);//MORPH_OPEN MORPH_CLOSE
+		element, Point(-1, -1), morph_iter1);//MORPH_OPEN MORPH_CLOSE
+	morphologyEx(result.clone(), result, MorphTypes::MORPH_CLOSE,
+		element, Point(-1, -1), morph_iter2);//MORPH_OPEN MORPH_CLOSE
 	medianBlur(result.clone(), result, blur_iter);
 	in_img = result.clone();
 }
