@@ -161,19 +161,19 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	//Mat pattern = imread("C:\\Users\\user\\Desktop\\temp1.bmp");
-	//Mat in_img = imread("C:\\Users\\user\\Desktop\\Img1_Step6.bmp");//image7
-	//vector<double> result = match_shape(pattern, in_img, 0.2515);
-	//if (result.size() > 0)
-	//{
-	//	cout << "Found: " << result.size() << endl;
-	//	int cnt = 1;
-	//	for (auto i : result)
-	//	{
-	//		cout << "result" << cnt << ": " << i << endl;
-	//		cnt++;
-	//	}
-	//}
+	Mat pattern = imread("C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp");
+	Mat in_img = imread("C:\\Users\\user\\Desktop\\190131\\test2.bmp");//image7
+	vector<double> result = match_shape(pattern, in_img, 0.327515);
+	if (result.size() > 0)
+	{
+		cout << "Found: " << result.size() << endl;
+		int cnt = 1;
+		for (auto i : result)
+		{
+			cout << "result" << cnt << ": " << i << endl;
+			cnt++;
+		}
+	}
 
 	///barcode search
 	/*int index_ = 0;
@@ -523,8 +523,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
-	imgpro_contourfind(pattern, 3, 3, 0, 11);
-	imgpro_contourfind(in_img, 3, 5, 1, 1);
+	imgpro_contourfind(pattern, 2, 2, 0, 3);
+	imgpro_contourfind(in_img, 3, 5, 1, 3);
 	//
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
@@ -551,7 +551,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
-		if (g_dConLength <  100 || g_dConLength > 1000)//template_Length * 0.6
+		if (g_dConLength <  template_Length - 150 || 
+			g_dConLength > template_Length + 150)
 		{
 			itc = in_contour.erase(itc);
 		}
@@ -562,9 +563,9 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 			if (threshold_ < thresh)
 			{
 				threshold.push_back(threshold_);
-				Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
+				Scalar color_ = Scalar(41, 73, 236);//Scalar(rand() % 255, rand() % 255, rand() % 255);
 				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
-					color_, 3, 8);
+					color_, 4, 8);
 				/*ostringstream buffer;
 				buffer << "num" << itc - in_contour.begin();
 				string file_name = buffer.str();
@@ -581,7 +582,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		nowtime = time(NULL);
 		char currentdate[100];
 		strftime(currentdate, sizeof(currentdate),
-			"%H%m%S", localtime(&nowtime));
+			"%H%M%S", localtime(&nowtime));
 		ostringstream buffer;
 		buffer << currentdate << "_result.bmp";
 		string file_name = buffer.str();
