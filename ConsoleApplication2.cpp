@@ -161,19 +161,19 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp");
-	Mat in_img = imread("C:\\Users\\user\\Desktop\\190131\\test2.bmp");//image7
-	vector<double> result = match_shape(pattern, in_img, 0.327515);
-	if (result.size() > 0)
-	{
-		cout << "Found: " << result.size() << endl;
-		int cnt = 1;
-		for (auto i : result)
-		{
-			cout << "result" << cnt << ": " << i << endl;
-			cnt++;
-		}
-	}
+	//Mat pattern = imread("C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp");
+	//Mat in_img = imread("C:\\Users\\user\\Desktop\\190131\\test2.bmp");//image7
+	//vector<double> result = match_shape(pattern, in_img, 0.327515);
+	//if (result.size() > 0)
+	//{
+	//	cout << "Found: " << result.size() << endl;
+	//	int cnt = 1;
+	//	for (auto i : result)
+	//	{
+	//		cout << "result" << cnt << ": " << i << endl;
+	//		cnt++;
+	//	}
+	//}
 
 	///barcode search
 	/*int index_ = 0;
@@ -505,6 +505,8 @@ int distance_cal(Mat in_img, int threshold, double scale, int mode_)
 	return 0;
 }
 
+
+
 vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 {
 	vector<double> threshold;
@@ -610,6 +612,17 @@ void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter1, int morph_
 	medianBlur(result.clone(), result, blur_iter);
 	in_img = result.clone();
 }
+
+
+
+
+
+
+
+
+
+
+
 
 bool barcode_search(Mat& in_img, int& index)
 {
