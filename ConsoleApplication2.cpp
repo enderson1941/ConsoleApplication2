@@ -161,19 +161,19 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	//Mat pattern = imread("C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp");
-	//Mat in_img = imread("C:\\Users\\user\\Desktop\\190131\\test2.bmp");//image7
-	//vector<double> result = match_shape(pattern, in_img, 0.327515);
-	//if (result.size() > 0)
-	//{
-	//	cout << "Found: " << result.size() << endl;
-	//	int cnt = 1;
-	//	for (auto i : result)
-	//	{
-	//		cout << "result" << cnt << ": " << i << endl;
-	//		cnt++;
-	//	}
-	//}
+	Mat pattern = imread("D:\\github\\ConsoleApplication2\\temp\\temp2.bmp");//C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp
+	Mat in_img = imread("D:\\github\\ConsoleApplication2\\temp\\Img0_Step4.bmp");//image7
+	vector<double> result = match_shape(pattern, in_img, 0.5327515);
+	if (result.size() > 0)
+	{
+		cout << "Found: " << result.size() << endl;
+		int cnt = 1;
+		for (auto i : result)
+		{
+			cout << "result" << cnt << ": " << i << endl;
+			cnt++;
+		}
+	}
 
 	///barcode search
 	/*int index_ = 0;
@@ -523,10 +523,10 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	{
 		cvtColor(in_img.clone(), in_img, CV_BGR2GRAY);
 		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
-			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
+			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 21, 15);
 	}
 	imgpro_contourfind(pattern, 2, 2, 0, 3);
-	imgpro_contourfind(in_img, 3, 5, 1, 3);
+//	imgpro_contourfind(in_img, 3, 1, 1, 1);
 	//
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
@@ -550,11 +550,13 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	findContours(in_img, in_contour, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL
 	vector<vector<Point>>::iterator itc = in_contour.begin();
+	Mat nisemono;
+	nisemono = imread("temp\\3.bmp", 1);
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
-		if (g_dConLength <  template_Length - 150 || 
-			g_dConLength > template_Length + 150)
+		if (g_dConLength <  100|| 
+			g_dConLength > 5000)// template_Length - 150
 		{
 			itc = in_contour.erase(itc);
 		}
@@ -566,8 +568,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 			{
 				threshold.push_back(threshold_);
 				Scalar color_ = Scalar(41, 73, 236);//Scalar(rand() % 255, rand() % 255, rand() % 255);
-				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
-					color_, 4, 8);
+				cv::drawContours(nisemono, in_contour, itc- in_contour.begin(),
+					color_, 4, 8);//original_img
 				/*ostringstream buffer;
 				buffer << "num" << itc - in_contour.begin();
 				string file_name = buffer.str();
@@ -589,7 +591,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		buffer << currentdate << "_result.bmp";
 		string file_name = buffer.str();
 		buffer.str("");
-		imwrite(file_name, original_img);
+		imwrite(file_name, nisemono);//original_img
 	}
 	return threshold;
 }
