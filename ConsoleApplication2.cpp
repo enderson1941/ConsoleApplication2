@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ConsoleApplication2.h"
 #include "algorithm_lib.h"
+#include "MatchingShape.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -12,6 +13,7 @@
 // The one and only application object
 
 CWinApp theApp;
+CMatchingShape MS;
 
 using namespace std;
 
@@ -43,6 +45,12 @@ int main()
 	}
 
 	std::cout << "process start." << endl;
+
+	char* br = "lena.jpg";
+	MS.parameter_initialize(2, 2, 0, 3, 75, CV_THRESH_BINARY);
+	Mat in_img = MS.pattern_load(br, 1);
+	cout << in_img.size() << endl;
+
 
 	/*
 	//namedWindow("window");
@@ -161,19 +169,19 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("D:\\github\\ConsoleApplication2\\temp\\temp2.bmp");//C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp
-	Mat in_img = imread("D:\\github\\ConsoleApplication2\\temp\\Img0_Step4.bmp");//image7
-	vector<double> result = match_shape(pattern, in_img, 0.5327515);
-	if (result.size() > 0)
-	{
-		cout << "Found: " << result.size() << endl;
-		int cnt = 1;
-		for (auto i : result)
-		{
-			cout << "result" << cnt << ": " << i << endl;
-			cnt++;
-		}
-	}
+	//Mat pattern = imread("D:\\github\\ConsoleApplication2\\temp\\temp2.bmp");//C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp
+	//Mat in_img = imread("D:\\github\\ConsoleApplication2\\temp\\Img0_Step4.bmp");//image7
+	//vector<double> result = match_shape(pattern, in_img, 0.5327515);
+	//if (result.size() > 0)
+	//{
+	//	cout << "Found: " << result.size() << endl;
+	//	int cnt = 1;
+	//	for (auto i : result)
+	//	{
+	//		cout << "result" << cnt << ": " << i << endl;
+	//		cnt++;
+	//	}
+	//}
 
 	///barcode search
 	/*int index_ = 0;
@@ -290,6 +298,7 @@ int main()
 	double time_collapse = run_timer(false, start_time);
 	std::cout << "Total time: "<< time_collapse * 1000.0 << " ms" << endl;*/
 
+	namedWindow("test");
 	cout << "process end." << endl;
 	cv::destroyAllWindows();
 	system("pause");
@@ -531,6 +540,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL CV_RETR_LIST
+
 	double template_Length = arcLength(in_pattern[1], true);
 
 	/*for (int i = 0; i < in_pattern.size(); i++)
@@ -556,7 +566,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	{
 		double g_dConLength = arcLength(*itc, true);
 		if (g_dConLength <  100|| 
-			g_dConLength > 5000)// template_Length - 150
+			g_dConLength > 2000)// template_Length - 150
 		{
 			itc = in_contour.erase(itc);
 		}
