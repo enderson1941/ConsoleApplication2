@@ -51,17 +51,22 @@ public:
 	int morph_iter2;
 	int blur_iter;
 	int pattern_index = 0;
-	int threshold_;
+	int threshold_v;
 	int threshold_mode;
 
 	double pattern_length;
 
 	bool parameter_initialize(int morph_size_, 
 		int morph_iter1_, int morph_iter2_, int blur_iter_, int threshold_, int threshold_mode_);
-	
 	Mat pattern_load(char* bar_code, int mode_ = 0);
-	
+	bool pattern_match(Mat& in_image, double threshold_val);
+
+private: 
+	Mat image_process(Mat in_image, int morph_size_,
+		int morph_iter1_, int morph_iter2_, int blur_iter_, int threshold_, int threshold_mode_);
 };
+
+vector<Point> temp_contour;
 
 extern MATCHINGSHAPE_API int nMatchingShape;
 

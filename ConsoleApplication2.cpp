@@ -13,7 +13,7 @@
 // The one and only application object
 
 CWinApp theApp;
-CMatchingShape MS;
+
 
 using namespace std;
 
@@ -46,11 +46,7 @@ int main()
 
 	std::cout << "process start." << endl;
 
-	char* br = "lena.jpg";
-	MS.parameter_initialize(2, 2, 0, 3, 75, CV_THRESH_BINARY);
-	Mat in_img = MS.pattern_load(br, 1);
-	cout << in_img.size() << endl;
-
+	
 
 	/*
 	//namedWindow("window");
@@ -169,19 +165,30 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	//Mat pattern = imread("D:\\github\\ConsoleApplication2\\temp\\temp2.bmp");//C:\\Users\\user\\Desktop\\190131\\temp_tel.bmp
-	//Mat in_img = imread("D:\\github\\ConsoleApplication2\\temp\\Img0_Step4.bmp");//image7
-	//vector<double> result = match_shape(pattern, in_img, 0.5327515);
-	//if (result.size() > 0)
-	//{
-	//	cout << "Found: " << result.size() << endl;
-	//	int cnt = 1;
-	//	for (auto i : result)
-	//	{
-	//		cout << "result" << cnt << ": " << i << endl;
-	//		cnt++;
-	//	}
-	//}
+	Mat pattern = imread("D:\\test\\190129\\basler\\temp2.bmp");
+	Mat in_img = imread("D:\\test\\190129\\basler\\Img2.bmp");
+	vector<double> result = match_shape(pattern, in_img, 0.765327515);
+	if (result.size() > 0)
+	{
+		cout << "Found: " << result.size() << endl;
+		int cnt = 1;
+		for (auto i : result)
+		{
+			cout << "result" << cnt << ": " << i << endl;
+			cnt++;
+		}
+	}
+
+	///Match shape with DLL
+	/*CMatchingShape MS;
+	char* br = "D:\\test\\190129\\basler\\temp2.bmp";
+	MS.parameter_initialize(2, 2, 0, 3, 75, CV_THRESH_BINARY);
+	Mat in_img = MS.pattern_load(br, 1);
+	Mat inspect_image = imread("D:\\test\\190129\\basler\\Image2.bmp");
+	MS.parameter_initialize(3, 1, 1, 3, 144, CV_THRESH_BINARY);
+	bool res = MS.pattern_match(inspect_image, 0.5327515);
+	cout << "Inspect Result: ";
+	cout << boolalpha <<res << endl;*/
 
 	///barcode search
 	/*int index_ = 0;
@@ -298,7 +305,6 @@ int main()
 	double time_collapse = run_timer(false, start_time);
 	std::cout << "Total time: "<< time_collapse * 1000.0 << " ms" << endl;*/
 
-	namedWindow("test");
 	cout << "process end." << endl;
 	cv::destroyAllWindows();
 	system("pause");
@@ -532,10 +538,10 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	{
 		cvtColor(in_img.clone(), in_img, CV_BGR2GRAY);
 		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
-			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 21, 15);
+			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
 	imgpro_contourfind(pattern, 2, 2, 0, 3);
-//	imgpro_contourfind(in_img, 3, 1, 1, 1);
+	imgpro_contourfind(in_img, 3, 1, 1, 3);
 	//
 	vector<vector<Point>> in_pattern;
 	findContours(pattern, in_pattern, CV_RETR_LIST,
@@ -543,7 +549,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 
 	double template_Length = arcLength(in_pattern[1], true);
 
-	/*for (int i = 0; i < in_pattern.size(); i++)
+	for (int i = 0; i < in_pattern.size(); i++)
 	{
 		Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
 		cv::drawContours(pattern_, in_pattern, i, color_, 2, 8);
@@ -554,14 +560,12 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		putText(pattern_, file_name, in_pattern[i][0],
 			HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 1);
 	}
-	imwrite("pattern_.bmp", pattern_);*/
+	imwrite("pattern_.bmp", pattern_);
 	
 	vector<vector<Point>> in_contour;
 	findContours(in_img, in_contour, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL
 	vector<vector<Point>>::iterator itc = in_contour.begin();
-	Mat nisemono;
-	nisemono = imread("temp\\3.bmp", 1);
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
@@ -578,8 +582,15 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 			{
 				threshold.push_back(threshold_);
 				Scalar color_ = Scalar(41, 73, 236);//Scalar(rand() % 255, rand() % 255, rand() % 255);
-				cv::drawContours(nisemono, in_contour, itc- in_contour.begin(),
-					color_, 4, 8);//original_img
+				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
+					color_, 4, 8);
+				RotatedRect mRect = minAreaRect(in_contour[itc - in_contour.begin()]);
+				Point2f corners_[4];
+				mRect.points(corners_);
+				for (int i = 0; i < 4; i++)
+				{
+					line(original_img, corners_[i], corners_[(i + 1) % 4], color_, 4);
+				}
 				/*ostringstream buffer;
 				buffer << "num" << itc - in_contour.begin();
 				string file_name = buffer.str();
@@ -601,7 +612,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		buffer << currentdate << "_result.bmp";
 		string file_name = buffer.str();
 		buffer.str("");
-		imwrite(file_name, nisemono);//original_img
+		imwrite(file_name, original_img);
 	}
 	return threshold;
 }
