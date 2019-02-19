@@ -79,27 +79,27 @@ int main()
 	//cv::Mat src_img = cv::imread("temp\\test2.png", 0);
 	//if (src_img.empty()) return -1;
 
-	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½è“–ï¿½ï¿½
+	//// E½qE½XE½gE½OE½E½E½E½E½E½E½`E½æ‚·E½E½E½æ‘œï¿½E½E½è“–ï¿½E½
 	//const int ch_width = 260, ch_height = 200;
 	//cv::Mat hist_img(cv::Size(ch_width, ch_height), CV_8UC3, cv::Scalar::all(255));
 
 	//cv::Mat hist;
-	//const int hdims[] = { 256 }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒqï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
+	//const int hdims[] = { 256 }; // E½E½E½E½E½E½E½ÌƒqE½XE½gE½OE½E½E½E½E½TE½CE½Y
 	//const float hranges[] = { 0,256 };
-	//const float* ranges[] = { hranges }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒrï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//const float* ranges[] = { hranges }; // E½E½E½E½E½E½E½ÌƒrE½E½E½Ì‰ï¿½E½E½E½E½E½E½
 	//double max_val = .0;
 
-	//// ï¿½Vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ìƒqï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Z
-	//// ï¿½æ‘œï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Âjï¿½Cï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Cï¿½}ï¿½Xï¿½Nï¿½Cï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iï¿½oï¿½Íjï¿½C
-	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Cï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//// E½VE½E½E½OE½E½E½`E½E½E½E½E½lE½E½E½ÌƒqE½XE½gE½OE½E½E½E½E½vE½Z
+	//// E½æ‘œï¿½iE½E½E½E½E½ÂjE½CE½æ‘œï¿½E½E½E½E½CE½vE½ZE½E½E½E½E½`E½E½E½E½E½lE½E½E½CE½}E½XE½NE½CE½qE½XE½gE½OE½E½E½E½E½iE½oE½ÍjE½C
+	//// E½qE½XE½gE½OE½E½E½E½E½Ìï¿½E½E½E½CE½qE½XE½gE½OE½E½E½E½E½rE½E½E½Ì‰ï¿½E½E½E½E½E½E½
 	//cv::calcHist(&src_img, 1, 0, cv::Mat(), hist, 1, hdims, ranges);
 
-	//// ï¿½Å‘ï¿½ï¿½lï¿½ÌŒvï¿½Z
+	//// E½Å‘ï¿½E½lE½ÌŒvE½Z
 	//cv::minMaxLoc(hist, 0, &max_val);
 
-	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Æ•`ï¿½ï¿½
+	//// E½qE½XE½gE½OE½E½E½E½E½ÌƒXE½PE½[E½E½E½E½E½OE½Æ•`E½E½
 	//cv::Scalar color = cv::Scalar::all(100);
-	//// ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
+	//// E½XE½PE½[E½E½E½E½E½O
 	//hist = hist * (max_val ? ch_height / max_val : 0.);
 	//for (int j = 0; j<hdims[0]; ++j) {
 	//	int bin_w = cv::saturate_cast<int>((double)ch_width / hdims[0]);
