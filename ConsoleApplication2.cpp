@@ -11,16 +11,13 @@
 #endif
 
 // The one and only application object
-
 CWinApp theApp;
-
 
 using namespace std;
 
 int main()
 {
 	int nRetCode = 0;
-
 	HMODULE hModule = ::GetModuleHandle(nullptr);
 
 	if (hModule != nullptr)
@@ -46,7 +43,7 @@ int main()
 
 	std::cout << "process start." << endl;
 
-	
+
 
 	/*
 	//namedWindow("window");
@@ -82,27 +79,27 @@ int main()
 	//cv::Mat src_img = cv::imread("temp\\test2.png", 0);
 	//if (src_img.empty()) return -1;
 
-	//// ƒqƒXƒgƒOƒ‰ƒ€‚ð•`‰æ‚·‚é‰æ‘œŠ„‚è“–‚Ä
+	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½è“–ï¿½ï¿½
 	//const int ch_width = 260, ch_height = 200;
 	//cv::Mat hist_img(cv::Size(ch_width, ch_height), CV_8UC3, cv::Scalar::all(255));
 
 	//cv::Mat hist;
-	//const int hdims[] = { 256 }; // ŽŸŒ³–ˆ‚ÌƒqƒXƒgƒOƒ‰ƒ€ƒTƒCƒY
+	//const int hdims[] = { 256 }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒqï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 	//const float hranges[] = { 0,256 };
-	//const float* ranges[] = { hranges }; // ŽŸŒ³–ˆ‚Ìƒrƒ“‚Ì‰ºŒÀãŒÀ
+	//const float* ranges[] = { hranges }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒrï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//double max_val = .0;
 
-	//// ƒVƒ“ƒOƒ‹ƒ`ƒƒƒ“ƒlƒ‹‚ÌƒqƒXƒgƒOƒ‰ƒ€ŒvŽZ
-	//// ‰æ‘œi•¡”‰ÂjC‰æ‘œ–‡”CŒvŽZ‚·‚éƒ`ƒƒƒ“ƒlƒ‹Cƒ}ƒXƒNCƒqƒXƒgƒOƒ‰ƒ€io—ÍjC
-	//// ƒqƒXƒgƒOƒ‰ƒ€‚ÌŽŸŒ³CƒqƒXƒgƒOƒ‰ƒ€ƒrƒ“‚Ì‰ºŒÀãŒÀ
+	//// ï¿½Vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ìƒqï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Z
+	//// ï¿½æ‘œï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Âjï¿½Cï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Cï¿½}ï¿½Xï¿½Nï¿½Cï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iï¿½oï¿½Íjï¿½C
+	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌŽï¿½ï¿½ï¿½ï¿½Cï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//cv::calcHist(&src_img, 1, 0, cv::Mat(), hist, 1, hdims, ranges);
 
-	//// Å‘å’l‚ÌŒvŽZ
+	//// ï¿½Å‘ï¿½ï¿½lï¿½ÌŒvï¿½Z
 	//cv::minMaxLoc(hist, 0, &max_val);
 
-	//// ƒqƒXƒgƒOƒ‰ƒ€‚ÌƒXƒP[ƒŠƒ“ƒO‚Æ•`‰æ
+	//// ï¿½qï¿½Xï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Æ•`ï¿½ï¿½
 	//cv::Scalar color = cv::Scalar::all(100);
-	//// ƒXƒP[ƒŠƒ“ƒO
+	//// ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
 	//hist = hist * (max_val ? ch_height / max_val : 0.);
 	//for (int j = 0; j<hdims[0]; ++j) {
 	//	int bin_w = cv::saturate_cast<int>((double)ch_width / hdims[0]);
@@ -165,18 +162,25 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("D:\\test\\190129\\basler\\temp2.bmp");
-	Mat in_img = imread("D:\\test\\190129\\basler\\Img2.bmp");
-	vector<double> result = match_shape(pattern, in_img, 0.765327515);
-	if (result.size() > 0)
+	Mat pattern = imread("D:\\github\\ConsoleApplication2\\arrow\\arrow.bmp");
+	Mat in_img = imread("D:\\github\\ConsoleApplication2\\arrow\\Image4.bmp");
+	if (pattern.data && in_img.data)
 	{
-		cout << "Found: " << result.size() << endl;
-		int cnt = 1;
-		for (auto i : result)
+		vector<double> result = match_shape(pattern, in_img, 0.76532);
+		if (result.size() > 0)
 		{
-			cout << "result" << cnt << ": " << i << endl;
-			cnt++;
+			cout << "Found: " << result.size() << endl;
+			int cnt = 1;
+			for (auto i : result)
+			{
+				cout << "result" << cnt << ": " << i << endl;
+				cnt++;
+			}
 		}
+	}
+	else
+	{
+		cout << "Image Not Valid." << endl;
 	}
 
 	///Match shape with DLL
@@ -188,7 +192,7 @@ int main()
 	MS.parameter_initialize(3, 1, 1, 3, 144, CV_THRESH_BINARY);
 	bool res = MS.pattern_match(inspect_image, 0.5327515);
 	cout << "Inspect Result: ";
-	cout << boolalpha <<res << endl;*/
+	cout << boolalpha << res << endl;*/
 
 	///barcode search
 	/*int index_ = 0;
@@ -255,7 +259,7 @@ int main()
 	//cout << "Inspect valve: " << posi_param.iden_valve << endl;
 
 	///color
-	//	//tape023: Scalar(140, 70, 36) tape14:Scalar(210, 110, 80) 
+	//	//tape023: Scalar(140, 70, 36) tape14:Scalar(210, 110, 80)
 	//	//img05: Scalar(150, 85, 80) img06: Scalar(150, 95, 85) img07: Scalar(200, 100, 80) 35
 	//	//top_1-2: Scalar(245, 100, 5)
 	//	//Y Scalar(65, 125, 130)  Scalar(110, 195, 205)
@@ -311,7 +315,7 @@ int main()
     return nRetCode;
 }
 
-int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold, 
+int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double threshold,
 	double& rmse, int index_, int mode_)
 {
 	string file_name;
@@ -325,7 +329,7 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	}
 	Mat mask_ = Mat(in_img.rows, in_img.cols, CV_8UC1, Scalar::all(0));
 	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, Size(1, 1), Point(-1, -1));
-	morphologyEx(in_img.clone(), res_, MorphTypes::MORPH_OPEN, 
+	morphologyEx(in_img.clone(), res_, MorphTypes::MORPH_OPEN,
 		element, Point(-1, -1), 1);//MORPH_OPEN MORPH_CLOSE
 	medianBlur(res_.clone(), res_, 1);
 	for (int col = 0; col < res_.cols; col++)
@@ -351,7 +355,7 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	imwrite("temp\\mask.jpg", mask_);
 //	distance_cal(mask_, 15, 0.03, 0);
 	vector<vector<Point>> contours;
-	findContours(mask_.clone(), contours, CV_RETR_EXTERNAL, 
+	findContours(mask_.clone(), contours, CV_RETR_EXTERNAL,
 		CV_CHAIN_APPROX_SIMPLE);//CV_RETR_LIST CV_RETR_EXTERNAL
 	if (contours.size() < contour_cnt)
 	{
@@ -377,7 +381,7 @@ int color_identify(Mat& in_img, Scalar target_color, int& contour_cnt, double th
 	}
 	if (mode_ > 0)
 	{
-		cv::drawContours(in_img, contours, -1, 
+		cv::drawContours(in_img, contours, -1,
 			Scalar(255- target_color[0], 255 - target_color[1], 255 - target_color[2]), 5, 8);
 		//CV_FILLED Scalar(140, 183, 127)
 		/*RotatedRect bound_ = minAreaRect(marker_);
@@ -461,7 +465,7 @@ int distance_cal(Mat in_img, int threshold, double scale, int mode_)
 					min_v = dist;
 				}
 		//		cout << "Dist" << row << "(pixels): " << dist << endl;
-				cout << dist * scale << endl;//"Dist" << row << "(mm): " << 
+				cout << dist * scale << endl;//"Dist" << row << "(mm): " <<
 			}
 		}
 	}
@@ -526,18 +530,19 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 {
 	vector<double> threshold;
 	Mat original_img = in_img.clone();
+	Mat transform = in_img.clone();
 	Mat pattern_ = pattern.clone();
 	//image process
 	if (pattern.channels() > 1)
 	{
 		cvtColor(pattern.clone(), pattern, CV_BGR2GRAY);
-		cv::adaptiveThreshold(pattern.clone(), pattern, 255, 
+		cv::adaptiveThreshold(pattern.clone(), pattern, 255,
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
 	if (in_img.channels() > 1)
 	{
 		cvtColor(in_img.clone(), in_img, CV_BGR2GRAY);
-		cv::adaptiveThreshold(in_img.clone(), in_img, 255, 
+		cv::adaptiveThreshold(in_img.clone(), in_img, 255,
 			ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 21, 15);
 	}
 	imgpro_contourfind(pattern, 2, 2, 0, 3);
@@ -549,7 +554,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 
 	double template_Length = arcLength(in_pattern[1], true);
 
-	for (int i = 0; i < in_pattern.size(); i++)
+	/*for (int i = 0; i < in_pattern.size(); i++)
 	{
 		Scalar color_ = Scalar(rand() % 255, rand() % 255, rand() % 255);
 		cv::drawContours(pattern_, in_pattern, i, color_, 2, 8);
@@ -560,8 +565,8 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		putText(pattern_, file_name, in_pattern[i][0],
 			HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 1);
 	}
-	imwrite("pattern_.bmp", pattern_);
-	
+	imwrite("pattern_.bmp", pattern_);*/
+
 	vector<vector<Point>> in_contour;
 	findContours(in_img, in_contour, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL
@@ -569,19 +574,20 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
-		if (g_dConLength <  100|| 
-			g_dConLength > 2000)// template_Length - 150
+		if (g_dConLength <  250||
+			g_dConLength > 3000)// template_Length - 150
 		{
 			itc = in_contour.erase(itc);
 		}
 		else
 		{
-			double threshold_ = cv::matchShapes(in_pattern[1], *itc, 
+			double threshold_ = cv::matchShapes(in_pattern[1], *itc,
 				CV_CONTOURS_MATCH_I2, 0);
 			if (threshold_ < thresh)
 			{
 				threshold.push_back(threshold_);
-				Scalar color_ = Scalar(41, 73, 236);//Scalar(rand() % 255, rand() % 255, rand() % 255);
+				Scalar color_ = Scalar(41, 73, 236);
+				//Scalar(rand() % 255, rand() % 255, rand() % 255);
 				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
 					color_, 4, 8);
 				RotatedRect mRect = minAreaRect(in_contour[itc - in_contour.begin()]);
@@ -590,12 +596,66 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 				for (int i = 0; i < 4; i++)
 				{
 					line(original_img, corners_[i], corners_[(i + 1) % 4], color_, 4);
+					char str[25];
+					_itoa(i, str, 10);
+					putText(original_img, str, corners_[i], HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 1);
 				}
+#pragma region Coordinates Change
+				Point2f temp_corner1(0, 0);
+				Point2f temp_corner2(1000, 1000);
+				Point2f corners_new[4]{ (0, 0) };
+				//right x & left x
+				for (int j = 0; j < 4; j++)
+				{
+					if (temp_corner1.x < corners_[j].x)
+					{
+						temp_corner1 = corners_[j];
+					}
+					if (temp_corner2.x > corners_[j].x)
+					{
+						temp_corner2 = corners_[j];
+					}
+				}
+				corners_new[0].x = temp_corner2.x;
+				corners_new[1].x = temp_corner1.x;
+				corners_new[2].x = temp_corner1.x;
+				corners_new[3].x = temp_corner2.x;
+				//up y & down y
+				for (int k = 0; k < 4; k++)
+				{
+					if (temp_corner1.y < corners_[k].y)
+					{
+						temp_corner1 = corners_[k];
+					}
+					if (temp_corner2.y > corners_[k].y)
+					{
+						temp_corner2 = corners_[k];
+					}
+				}
+				corners_new[0].y = temp_corner2.y;
+				corners_new[1].y = temp_corner2.y;
+				corners_new[2].y = temp_corner1.y;
+				corners_new[3].y = temp_corner1.y;
+				Point2f obj_corners[4];
+				obj_corners[0] = Point(10, 10);
+				obj_corners[1] = Point(pattern.cols + 10, 10);
+				obj_corners[2] = Point(pattern.cols + 10, pattern.rows + 10);
+				obj_corners[3] = Point(10, pattern.rows + 10);
+				Mat tmp_res;
+				Mat P = getPerspectiveTransform(corners_new, obj_corners);
+				warpPerspective(transform, tmp_res, P, Size(pattern.cols + 220, pattern.rows + 20));
+				imwrite("PerspectiveTransform.bmp", tmp_res);
+#pragma endregion
+
+				/*Rect rectangle_ = boundingRect(in_contour[itc - in_contour.begin()]);
+				rectangle(original_img, rectangle_, Scalar(rand() % 255, rand() % 255, rand() % 255), 4);
+				mRect = fitEllipse(in_contour[itc - in_contour.begin()]);
+				ellipse(original_img, mRect, Scalar(rand() % 255, rand() % 255, rand() % 255), 4);*/
 				/*ostringstream buffer;
 				buffer << "num" << itc - in_contour.begin();
 				string file_name = buffer.str();
 				buffer.str("");
-				putText(original_img, file_name, in_contour[itc - in_contour.begin()][0], 
+				putText(original_img, file_name, in_contour[itc - in_contour.begin()][0],
 					HersheyFonts::FONT_HERSHEY_PLAIN, 1, color_, 2);*/
 			}
 			++itc;
@@ -626,7 +686,7 @@ void prepro_contorfind(Mat& pattern, Mat& in_img)
 void imgpro_contourfind(Mat& in_img, int morph_size, int morph_iter1, int morph_iter2, int blur_iter)
 {
 	Mat result = in_img.clone();
-	Mat element = getStructuringElement(MorphShapes::MORPH_RECT, 
+	Mat element = getStructuringElement(MorphShapes::MORPH_RECT,
 		Size(morph_size, morph_size), Point(-1, -1));
 	morphologyEx(result.clone(), result, MorphTypes::MORPH_OPEN,
 		element, Point(-1, -1), morph_iter1);//MORPH_OPEN MORPH_CLOSE
@@ -656,7 +716,7 @@ bool barcode_search(Mat& in_img, int& index)
 		cvtColor(in_img.clone(), in_img, CV_BGR2GRAY);
 	}
 	Mat temp;
-	cv::morphologyEx(in_img, temp, MorphTypes::MORPH_GRADIENT, 
+	cv::morphologyEx(in_img, temp, MorphTypes::MORPH_GRADIENT,
 		getStructuringElement(MorphShapes::MORPH_RECT, Size(7, 1)));
 	medianBlur(temp.clone(), temp, 21);
 	threshold(temp.clone(), temp, 66, 255, THRESH_BINARY);
@@ -766,7 +826,7 @@ int files_Listing(string folder_name)
 	{
 		::CreateDirectory(L"Output", NULL);
 	}
-	folder_name.erase(folder_name.begin(), folder_name.begin() + 
+	folder_name.erase(folder_name.begin(), folder_name.begin() +
 		folder_name.find_last_of('\\') + 1);
 	string File_list = string("Output\\") + folder_name + string(".md");
 	//
@@ -780,7 +840,7 @@ int files_Listing(string folder_name)
 		file_op.open(File_list, ios::out | ios::app);
 		bool operation_sign = md_fileoperation(1, file_op);
 	}
-	//	
+	//
 	do
 	{
 		string attribute;
@@ -825,7 +885,7 @@ int files_Listing(string folder_name)
 				string ext_ = file_info.name;
 				ext_.erase(ext_.begin(), ext_.begin() + ext_.find_last_of('.') + 1);
 				string name_ = file_info.name;
-				content = to_string(files_cnt) + ". " + name_ + "\nFile Size: " + 
+				content = to_string(files_cnt) + ". " + name_ + "\nFile Size: " +
 					file_sz + unit + "\nFile attribute: " + ext_ + "\n";
 				md_fileoperation(2, file_op, content);
 				if (ext_ != "md")
@@ -860,14 +920,14 @@ bool md_fileoperation(int op, fstream& file_operation, string content)
 {
 	bool nRet = true;
 	string info_data;
-	
+
 	time_t nowtime;
-	nowtime = time(NULL); 
+	nowtime = time(NULL);
 	char currentdate[100];
-	strftime(currentdate, sizeof(currentdate), 
+	strftime(currentdate, sizeof(currentdate),
 		"%Y-%m-%d", localtime(&nowtime));
 
-	switch (op)	
+	switch (op)
 	{
 	case 0://initialize
 	{
