@@ -60,3 +60,60 @@ int index(int& op1, int& op2);
 int add(int a, int b);
 
 double run_timer(bool switch_, clock_t& start_time);
+
+
+class A
+{
+public:
+	void foo()
+	{
+		cout << "A:foo()" << endl;
+	}
+};
+
+class B : public A
+{
+public:
+	void foo()
+	{
+		cout << "B:foo()" << endl;
+	}
+};
+
+class num_sequence {
+public:
+	int num_se;
+	virtual const char* what_am_i() const//virtual
+	{
+		return "num_sequence\n";
+	}
+};
+
+class Fibonacci : public num_sequence {
+public:
+	int Fibona;
+	virtual const char *what_am_i()//virtual 
+	{
+		return "Fibonacci\n";
+	}
+};
+
+class Father 
+{ 
+public:       
+	int father_;
+	virtual void print() 
+	{ 
+		cout << "Father's function!\n";
+	} 
+}; 
+
+class Son :public Father 
+{
+public:
+	int son_;
+	void print() 
+	{ 
+		cout << "Son's function!\n";
+	} 
+};

@@ -43,6 +43,32 @@ int main()
 
 	std::cout << "process start." << endl;
 
+	/*A *a = new B();
+	A* b = new A();
+	b->foo();
+	a->foo();*/
+
+	Fibonacci b;
+	num_sequence p;
+
+	// expect this to generate: Fibonacci
+	num_sequence* pp = new Fibonacci();
+
+	//num_sequence *pp = &b;
+	cout << pp->what_am_i();
+	pp->num_se = 3;
+	cout << b.what_am_i();
+
+	Father f1;
+	Son s1;
+
+	//Father* f = &f1;
+	Father* f = new Son();
+	Son* s = &s1;
+	
+	
+	f->print();
+	s->print();
 
 
 	/*
@@ -162,7 +188,7 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("D:\\github\\ConsoleApplication2\\arrow\\arrow.bmp");
+	/*Mat pattern = imread("D:\\github\\ConsoleApplication2\\arrow\\arrow.bmp");
 	Mat in_img = imread("D:\\github\\ConsoleApplication2\\arrow\\Image4.bmp");
 	if (pattern.data && in_img.data)
 	{
@@ -181,7 +207,7 @@ int main()
 	else
 	{
 		cout << "Image Not Valid." << endl;
-	}
+	}*/
 
 	///Match shape with DLL
 	/*CMatchingShape MS;

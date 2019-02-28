@@ -1,11 +1,11 @@
 ﻿  ConsoleApplication2.cpp
-ConsoleApplication2.cpp(349): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ConsoleApplication2.cpp(595): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
-ConsoleApplication2.cpp(609): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+ConsoleApplication2.cpp(372): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+ConsoleApplication2.cpp(618): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+ConsoleApplication2.cpp(632): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating code
-  73 of 918 functions ( 8.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  65 of 707 functions ( 9.2%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ConsoleApplication2.vcxproj -> D:\github\ConsoleApplication2\x64\Release\ConsoleApplication2.exe
   ConsoleApplication2.vcxproj -> D:\github\ConsoleApplication2\x64\Release\ConsoleApplication2.pdb (Full PDB)
