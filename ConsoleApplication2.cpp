@@ -47,6 +47,20 @@ int main()
 	A* b = new A();
 	b->foo();
 	a->foo();*/
+	try
+	{
+		Mat test1 = imread("nowhere.jpg", 1);
+		imshow("test", test1);
+	}
+	catch (cv::Exception& e)
+	{
+		cout << "errorcode: " << e.code << endl;
+		cout << "comment: " << e.err << endl;
+		cout << "(string type)errmsg: " << e.msg << endl;
+		cout << "(const char* type)what? " << e.what() << endl;
+	}
+	//const std::exception&
+
 
 	Fibonacci b;
 	num_sequence p;
