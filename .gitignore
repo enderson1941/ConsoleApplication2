@@ -4,17 +4,19 @@ ipch
 temp
 Debug
 arrow
+*.bmp
 
 # VS file
 *.aps
 *.rtf
 *.VC.db
 *.VC.opendb
-Release/ConsoleA.006AE96F.tlog
-Release/*.pdb
-Release/*.ipdb
-Release/*.log
-Release/*.iobj
+x64/Release/ConsoleA.006AE96F.tlog
+x64/Release/*.pdb
+x64/Release/*.ipdb
+x64/Release/*.log
+x64/Release/*.iobj
+x64/Release/*.res
 
 # Prerequisites
 *.d
@@ -45,6 +47,5 @@ Release/*.iobj
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
