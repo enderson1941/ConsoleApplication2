@@ -10,6 +10,11 @@ arrow
 *.rtf
 *.VC.db
 *.VC.opendb
+Release/ConsoleA.006AE96F.tlog
+Release/*.pdb
+Release/*.ipdb
+Release/*.log
+Release/*.iobj
 
 # Prerequisites
 *.d
