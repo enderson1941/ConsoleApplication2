@@ -43,46 +43,63 @@ int main()
 
 	std::cout << "process start." << endl;
 
-	/*A *a = new B();
+	A *a = new B();
 	A* b = new A();
 	b->foo();
-	a->foo();*/
-	try
-	{
-		Mat test1 = imread("nowhere.jpg", 1);
-		imshow("test", test1);
-	}
-	catch (cv::Exception& e)
-	{
-		cout << "errorcode: " << e.code << endl;
-		cout << "comment: " << e.err << endl;
-		cout << "(string type)errmsg: " << e.msg << endl;
-		cout << "(const char* type)what? " << e.what() << endl;
-	}
-	//const std::exception&
+	a->foo();
 
+	//A* obj = new A();
+	//A* newobj = new A();
 
-	Fibonacci b;
-	num_sequence p;
+	//obj->sign = false;
+	//newobj->sign = true;
 
-	// expect this to generate: Fibonacci
-	num_sequence* pp = new Fibonacci();
+	//cout << boolalpha << obj->sign << endl;
+	//cout << boolalpha << newobj->sign << endl;
 
-	//num_sequence *pp = &b;
-	cout << pp->what_am_i();
-	pp->num_se = 3;
-	cout << b.what_am_i();
+	/*obj[0].sign = false;
+	obj[1].sign = true;
 
-	Father f1;
-	Son s1;
-
-	//Father* f = &f1;
-	Father* f = new Son();
-	Son* s = &s1;
+	cout << boolalpha << obj[0].sign << endl;
+	cout << boolalpha << obj[1].sign << endl;*/
 	
 	
-	f->print();
-	s->print();
+	//try
+	//{
+	//	Mat test1 = imread("nowhere.jpg", 1);
+	//	imshow("test", test1);
+	//}
+	//catch (cv::Exception& e)
+	//{
+	//	cout << "errorcode: " << e.code << endl;
+	//	cout << "comment: " << e.err << endl;
+	//	cout << "(string type)errmsg: " << e.msg << endl;
+	//	cout << "(const char* type)what? " << e.what() << endl;
+	//}
+	////const std::exception&
+
+
+	//Fibonacci b;
+	//num_sequence p;
+
+	//// expect this to generate: Fibonacci
+	//num_sequence* pp = new Fibonacci();
+
+	////num_sequence *pp = &b;
+	//cout << pp->what_am_i();
+	//pp->num_se = 3;
+	//cout << b.what_am_i();
+
+	//Father f1;
+	//Son s1;
+
+	////Father* f = &f1;
+	//Father* f = new Son();
+	//Son* s = &s1;
+	//
+	//
+	//f->print();
+	//s->print();
 
 
 	/*

@@ -65,6 +65,7 @@ double run_timer(bool switch_, clock_t& start_time);
 class A
 {
 public:
+	static bool sign;
 	void foo()
 	{
 		cout << "A:foo()" << endl;
