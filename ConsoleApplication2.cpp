@@ -43,10 +43,10 @@ int main()
 
 	std::cout << "process start." << endl;
 
-	A *a = new B();
+	/*A *a = new B();
 	A* b = new A();
 	b->foo();
-	a->foo();
+	a->foo();*/
 
 	//A* obj = new A();
 	//A* newobj = new A();
@@ -241,7 +241,7 @@ int main()
 	}*/
 
 	///Match shape with DLL
-	/*CMatchingShape MS;
+	CMatchingShape MS;
 	char* br = "D:\\test\\190129\\basler\\temp2.bmp";
 	MS.parameter_initialize(2, 2, 0, 3, 75, CV_THRESH_BINARY);
 	Mat in_img = MS.pattern_load(br, 1);
@@ -249,7 +249,7 @@ int main()
 	MS.parameter_initialize(3, 1, 1, 3, 144, CV_THRESH_BINARY);
 	bool res = MS.pattern_match(inspect_image, 0.5327515);
 	cout << "Inspect Result: ";
-	cout << boolalpha << res << endl;*/
+	cout << boolalpha << res << endl;
 
 	///barcode search
 	/*int index_ = 0;
