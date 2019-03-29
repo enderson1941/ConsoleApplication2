@@ -219,8 +219,16 @@ int main()
 	//cv::waitKey();
 
 	///shape detection
-	Mat pattern = imread("D:\\mat\\2.bmp");
-	Mat in_img = imread("D:\\mat\\img1_.bmp");
+	/*string pattern_file;
+	string image_file;
+	cout << "テンプレート画像の場所を入れてください.eg D:\\template.bmp\n<dir> ";
+	cin >>  pattern_file;
+	cout << endl;
+	cout << "検査用画像の場所を入れてください.eg D:\\inspect.bmp\n<dir> ";
+	cin >>  image_file;
+	cout << endl;
+	Mat pattern = imread(pattern_file, CV_LOAD_IMAGE_COLOR);
+	Mat in_img = imread(image_file, CV_LOAD_IMAGE_COLOR);
 	if (pattern.data && in_img.data)
 	{
 		vector<double> result = match_shape(pattern, in_img, 1.76532);
@@ -238,19 +246,31 @@ int main()
 	else
 	{
 		cout << "Image Not Valid." << endl;
-	}
+	}*/
 
 	///Match shape with DLL
-	/*CMatchingShape MS;
-	char* br = "D:\\mat\\1.bmp";
+	CMatchingShape MS;
+	string pattern_file;
+	string image_file;
+	double inspect_threshold;
+	cout << "テンプレート画像の場所を入れてください.eg D:\\template.bmp\n<dir> ";
+	cin >> pattern_file;
+	cout << endl;
+	cout << "検査用画像の場所を入れてください.eg D:\\inspect.bmp\n<dir> ";
+	cin >> image_file;
+	cout << endl;
+	cout << "検査閾値を入れてください.eg 0.1~10\n<dir> ";
+	cin >> inspect_threshold;
+	cout << endl;
+	char* br = &pattern_file[0u];//"D:\\mat\\1.bmp"
 	MS.parameter_initialize(2, 2, 0, 3, 75, CV_THRESH_BINARY);
 	MS.pattern_index = 1;
 	Mat in_img = MS.pattern_load(br, 1);
-	Mat inspect_image = imread("D:\\mat\\img0_.bmp");
+	Mat inspect_image = imread(image_file, CV_LOAD_IMAGE_COLOR);//"D:\\mat\\img0_.bmp"
 	MS.parameter_initialize(3, 1, 1, 3, 144, CV_THRESH_BINARY);
-	bool res = MS.pattern_match(inspect_image, 10.5327515);
+	bool res = MS.pattern_match(inspect_image, inspect_threshold);
 	cout << "Inspect Result: ";
-	cout << boolalpha << res << endl;*/
+	cout << boolalpha << res << endl;
 
 	///barcode search
 	/*int index_ = 0;
@@ -629,7 +649,6 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 	findContours(in_img, in_contour, CV_RETR_LIST,
 		CV_CHAIN_APPROX_NONE);//CV_RETR_EXTERNAL
 	vector<vector<Point>>::iterator itc = in_contour.begin();
-	Mat img1 = imread("D:\\mat\\img1.bmp", 1);
 	while (itc != in_contour.end())
 	{
 		double g_dConLength = arcLength(*itc, true);
@@ -648,7 +667,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 				Scalar color_ = Scalar(41, 73, 236);
 				//Scalar(rand() % 255, rand() % 255, rand() % 255);
 				
-				cv::drawContours(img1, in_contour, itc- in_contour.begin(),
+				cv::drawContours(original_img, in_contour, itc- in_contour.begin(),
 					color_, 4, 8);
 				RotatedRect mRect = minAreaRect(in_contour[itc - in_contour.begin()]);
 				Point2f corners_[4];
@@ -732,7 +751,7 @@ vector<double> match_shape(Mat pattern, Mat& in_img, double thresh)
 		buffer << currentdate << "_result.bmp";
 		string file_name = buffer.str();
 		buffer.str("");
-		imwrite(file_name, img1);
+		imwrite(file_name, original_img);
 	}
 	return threshold;
 }
